@@ -27,7 +27,7 @@ npm install
 
 ## 🚀 Running the API
 ```sh
-node server.js
+node index.js
 ```
 The API will start and listen on **port 3000**.
 
