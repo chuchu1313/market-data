@@ -5,6 +5,11 @@ const { MACD, RSI, SMA } = require('technicalindicators');
 const app = express();
 const exchange = new ccxt.binance();
 
+app.get('/', async (req, res) => {
+    res.writeHead(200);
+    res.end('OK');
+});
+
 app.get('/api/market-data', async (req, res) => {
     try {
         const symbol = req.query.symbol || 'BTC/USDT';
