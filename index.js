@@ -17,8 +17,7 @@ app.post('/api/market-data', async (req, res) => {
             "BTC", "ETH", "BNB", "XRP", "ADA", "SOL", "DOGE", "DOT", "MATIC", "LTC",
             "TRX", "AVAX", "UNI", "XLM", "ATOM", "LINK", "ETC", "FIL", "ALGO", "VET",
             "ICP", "NEAR", "MKR", "QNT", "FTM", "THETA", "XEC", "EGLD", "HBAR", "SAND",
-            "XTZ", "AXS", "APE", "RUNE", "AAVE", "MANA", "GALA", "EOS", "FLOW", "KLAY",
-            "CHZ", "BTT", "TWT", "CRO", "SNX", "LDO", "ENJ", "ZEC", "KSM", "STX"
+            "XTZ", "AXS", "APE", "RUNE", "AAVE", "MANA", "GALA", "EOS", "FLOW", "KLAY"
         ];
         const timeframe = req.body.timeframe || '5m';
         const limit = req.body.limit || 50;
