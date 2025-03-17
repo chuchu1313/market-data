@@ -13,7 +13,22 @@ app.get('/', async (req, res) => {
 
 app.post('/api/market-data', async (req, res) => {
     try {
-        const symbols = req.body.symbols || ['BTC'];
+        const symbols = req.body.symbols || [
+            "BTC", "ETH", "BNB", "XRP", "ADA", "SOL", "DOGE", "DOT", "MATIC", "LTC",
+            "TRX", "AVAX", "UNI", "XLM", "ATOM", "LINK", "ETC", "FIL", "ALGO", "VET",
+            "ICP", "NEAR", "MKR", "QNT", "FTM", "THETA", "XEC", "EGLD", "HBAR", "SAND",
+            "XTZ", "AXS", "APE", "RUNE", "AAVE", "MANA", "GALA", "EOS", "FLOW", "KLAY",
+            "CHZ", "BTT", "TWT", "CRO", "SNX", "LDO", "ENJ", "ZEC", "KSM", "STX",
+            "YFI", "DYDX", "KDA", "CRV", "COMP", "WAVES", "BAND", "ZIL", "CELO", "LRC",
+            "1INCH", "RSR", "AR", "OCEAN", "ICX", "ANKR", "ONT", "XEM", "HOT", "SC",
+            "DGB", "SKL", "ARDR", "OGN", "RLC", "NKN", "SXP", "JST", "ALPHA", "PERP",
+            "COTI", "BEL", "STMX", "TLM", "CHR", "BNT", "CVC", "BLZ", "MTL", "MITH",
+            "DIA", "LIT", "DODO", "CTSI", "BTS", "ELF", "SLP", "PHA", "GNO", "REEF",
+            "TROY", "IRIS", "FOR", "HARD", "NULS", "WTC", "MFT", "STORJ", "CTK", "DOCK",
+            "DATA", "TOMO", "PUNDIX", "VIDT", "KMD", "FIRO", "GTC", "SUPER", "MOVR",
+            "QSP", "FUN", "MDT", "REQ", "FET", "PNT", "WNXM", "MBOX", "DNT", "LINA",
+            "YGG", "MIR", "POLS", "BURGER", "WING", "BEAM", "TWT", "DEXE", "ALPACA", "AUTO"
+        ];
         const timeframe = req.body.timeframe || '5m';
         const limit = req.body.limit || 50;
 
