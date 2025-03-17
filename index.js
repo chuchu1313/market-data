@@ -3,7 +3,6 @@ const ccxt = require('ccxt');
 const { MACD, RSI, SMA } = require('technicalindicators');
 
 const app = express();
-const port = 3000;
 const exchange = new ccxt.binance();
 
 app.get('/api/market-data', async (req, res) => {
@@ -53,6 +52,6 @@ app.get('/api/market-data', async (req, res) => {
     }
 });
 
-app.listen(8888);
+app.listen(3000);
 
 app.on('SIGTERM', () => app.close());
