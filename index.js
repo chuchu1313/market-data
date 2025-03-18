@@ -43,11 +43,10 @@ app.post('/api/market-data', async (req, res) => {
                 const minDataSize = Math.min(macdResult.length, rsiResult.length, ema12.length, ema26.length, closes.length);
                 const sliceSize = Math.max(35, minDataSize);
 
-                const macdFormatted = macdResult.slice(-sliceSize).map((val) => ({
-                    MACD: val.MACD,
-                    signal: val.signal,
-                    histogram: val.histogram
-                }));
+                const macdArray = macdResult.slice(-sliceSize).map(val => [val.MACD, val.signal, val.histogram]);
+                const rsiArray = rsiResult.slice(-sliceSize);
+                const ema12Array = ema12.slice(-sliceSize);
+                const ema26Array = ema26.slice(-sliceSize);
 
                 return {
                     symbol,
@@ -55,10 +54,10 @@ app.post('/api/market-data', async (req, res) => {
                     timestamp: timestamps.slice(-sliceSize),
                     ohlcv: ohlcv.slice(-sliceSize).map(candle => candle.slice(1, 6)), // 取 open, high, low, close, volume
                     indicators: {
-                        ema_12: ema12.slice(-sliceSize),
-                        ema_26: ema26.slice(-sliceSize),
-                        macd: macdFormatted,
-                        rsi: rsiResult.slice(-sliceSize),
+                        ema_12: ema12Array,
+                        ema_26: ema26Array,
+                        macd: macdArray,
+                        rsi: rsiArray,
                     }
                 };
             } catch (error) {
