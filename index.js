@@ -1,11 +1,13 @@
 const express = require('express');
 const ccxt = require('ccxt');
 const { MACD, RSI, EMA } = require('technicalindicators');
+const axios = require('axios');
+const _ = require('lodash');
 
 const app = express();
 const exchange = new ccxt.binance();
 
-app.use(express.json())
+app.use(express.json());
 app.get('/', async (req, res) => {
     res.writeHead(200);
     res.end('OK 200');
@@ -19,12 +21,14 @@ app.post('/api/market-data', async (req, res) => {
             "ICP", "NEAR", "MKR", "QNT", "FTM", "THETA", "XEC", "EGLD", "HBAR", "SAND",
             "XTZ", "AXS", "APE", "RUNE", "AAVE", "MANA", "GALA", "EOS", "FLOW", "KLAY"
         ];
+        const resp = await axios.get('https://www.binance.com/bapi/apex/v1/public/apex/marketing/symbol/list');
+        const symbolList = resp.data.data;
         const timeframe = req.body.timeframe || '5m';
         const limit = req.body.limit || 50;
 
-        const marketDataPromises = symbols.map(async (symbol) => {
+        const marketDataPromises = symbols.map(async (baseAsset) => {
             try {
-                symbol = symbol + "/USDT";
+                const symbol = baseAsset + "/USDT";
                 const ohlcv = await exchange.fetchOHLCV(symbol, timeframe, undefined, limit);
                 const timestamps = ohlcv.map(candle => new Date(candle[0]).toISOString());
                 const closes = ohlcv.map(candle => candle[4]);
@@ -48,8 +52,13 @@ app.post('/api/market-data', async (req, res) => {
                 const ema12Array = ema12.slice(-sliceSize);
                 const ema26Array = ema26.slice(-sliceSize);
 
+                const assetData = _.find(symbolList, { symbol: `${baseAsset}USDT` })
                 return {
                     symbol,
+                    marketCap: assetData.marketCap,
+                    volume: assetData.volume,
+                    dayChange: assetData.dayChange,
+                    price: assetData.price,
                     timeframe,
                     timestamp: timestamps.slice(-sliceSize),
                     ohlcv: ohlcv.slice(-sliceSize).map(candle => candle.slice(1, 6)), // 取 open, high, low, close, volume
@@ -61,7 +70,7 @@ app.post('/api/market-data', async (req, res) => {
                     }
                 };
             } catch (error) {
-                return { symbol, error: error.message };
+                return { symbol: baseAsset, error: error.message };
             }
         });
 

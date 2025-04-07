@@ -10,8 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.8.4",
     "ccxt": "^4.4.67",
     "express": "^4.21.2",
+    "lodash": "^4.17.21",
     "technicalindicators": "^3.1.0"
   },
   "devDependencies": {
